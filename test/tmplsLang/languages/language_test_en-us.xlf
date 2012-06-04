@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file original="SoyMsgBundle" datatype="x-soy-msg-bundle" xml:space="preserve" source-language="en" target-language="en-us">
+    <body>
+      <trans-unit id="1782895116599745495" datatype="html">
+        <source>Hello </source>
+        <target>Hello <x id="NAME"/></target>
+        <note priority="1" from="description">hello</note>
+      </trans-unit>
+      <trans-unit id="4584092443788135411" datatype="html">
+        <source>Hello World</source>
+        <target>Hello World</target>
+        <note priority="1" from="description">hello world</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
