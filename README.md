@@ -24,7 +24,7 @@ Thanks to [Daniel Pupius](http://search.npmjs.org/#/_author/Daniel%20Pupius) for
 
 first you have to define the connection and table attributes and get an instance of the simple-dynamo interface.
 
-```
+```coffee
 Soyer = require("soyer")
 mySoyer = new Soyer( config )
 
@@ -52,7 +52,7 @@ a list of valid language codes
 a method to extract the language-code out of the filename. The filename will be passed to the method and should return a valid language code.
 
 **Example**
-```
+```coffee
 Soyer = require( "soyer" )
 
 mySoyer = new Soyer
@@ -66,7 +66,7 @@ mySoyer.load ( err, success )->
 ```
 
 **Advanced example**
-```
+```coffee
 # files in folder: template.soy, template.en.js, template.fr.js, template.de.js
 
 Soyer = require( "soyer" )
@@ -108,7 +108,7 @@ soy path of the template.
 the language to render if `languagesupport` is activated.  
 
 **Example**
-```
+```coffee
 fnTemplate = mySoyer.get( "myNamespace.path.to.template" )
 
 console.log( fnTemplate( { param1: "hello world" } ) )
@@ -128,7 +128,7 @@ the language to render if `languagesupport` is activated.
 template data.  
 
 **Example**
-```
+```coffee
 rendered = mySoyer.render( "myNamespace.path.to.template", { param1: "hello world" } )
 console.log( rendered )
 ```
