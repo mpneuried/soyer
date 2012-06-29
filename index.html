@@ -1,0 +1,266 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Soyer by mpneuried</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Soyer</h1>
+        <p>use Google's Closure Templates inside node.js.</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/mpneuried/soyer" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/mpneuried/soyer/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/mpneuried/soyer/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>soyer</h1>
+
+<p><a href="http://travis-ci.org/mpneuried/soyer"><img src="https://secure.travis-ci.org/mpneuried/soyer.png?branch=master" alt="Build Status"></a></p>
+
+<p><strong>Soyer</strong> is small lib for serverside use of Google Closure Templates with node.js.</p>
+
+<p>Thanks to <a href="http://search.npmjs.org/#/_author/Daniel%20Pupius">Daniel Pupius</a> for <a href="http://search.npmjs.org/#/soynode">soynode</a>. I used this module as template and added the language support and removed the compile features.</p>
+
+<p><em>Written in coffee-script</em></p>
+
+<p><strong>INFO: all examples are written in coffee-script</strong></p>
+
+<h2>Install</h2>
+
+<pre><code>  npm install soyer
+</code></pre>
+
+<h3>Initialize module:</h3>
+
+<p>first you have to define the connection and table attributes and get an instance of the simple-dynamo interface.</p>
+
+<pre><code>Soyer = require("soyer")
+mySoyer = new Soyer( config )
+
+mySoyer.load ( err, success )-&gt;
+    if err
+        throw err
+    else
+        console.log( "templates sucessfully loaded" )
+
+</code></pre>
+
+<h4>config object description</h4>
+
+<ul>
+<li>
+<strong>path</strong> : <em>( <code>String</code> required )</em><br>
+absolute path to the directory where the module can find compiled soy files.</li>
+<li>
+<strong>soyFileExt</strong> : <em>( <code>String</code> optional: default = ".soy.js" )</em><br>
+soy file extension to select only the compiled soy files.</li>
+<li>
+<strong>languagesupport</strong> : <em>( <code>Boolean</code> optional: default = false )</em><br>
+enable the language support. If true the following options are relevant.</li>
+<li>
+<strong>defaultlang</strong> : <em>( <code>String</code> optional: default = "en-us" )</em><br>
+the default language code if the passed code will not fit.</li>
+<li>
+<strong>availibleLangs</strong> : <em>( <code>Array</code> optional: default = "[ "en-us", "de-de" ]" )</em><br>
+a list of valid language codes</li>
+<li>
+<strong>extractLang</strong> : <em>( <code>Function</code> optional )</em><br>
+a method to extract the language-code out of the filename. The filename will be passed to the method and should return a valid language code.</li>
+</ul><p><strong>Example</strong></p>
+
+<pre><code>Soyer = require( "soyer" )
+
+mySoyer = new Soyer
+    path: path.resolve( __dirname, "../path/to/templates/" ) 
+
+mySoyer.load ( err, success )-&gt;
+    throw err if err
+
+    rendered = mySoyer.render( "myNamespace.myTemplate", { param1: "abc" } )
+    console.log( rendered )
+</code></pre>
+
+<p><strong>Advanced example</strong></p>
+
+<pre><code># files in folder: template.soy, template.en.js, template.fr.js, template.de.js
+
+Soyer = require( "soyer" )
+
+mySoyer = new Soyer
+    path: path.resolve( __dirname, "../path/to/templates/" ) 
+    soyFileExt: ".js"
+    languagesupport: true
+    defaultlang: "de"
+    availibleLangs: [ "en", "de", "fr" ]
+    extractLang: ( file )-&gt;
+        [ _name, _lang ] = file.split( "." )
+        return _lang
+
+
+mySoyer.load ( err, success )-&gt;
+    throw err if err
+
+    renderedDE = mySoyer.render( "myNamespace.myTemplate", "de" { param1: "deutsch" } )
+    console.log( renderedDE )
+
+    renderedEN = mySoyer.render( "myNamespace.myTemplate", "en" { param1: "english" } )
+    console.log( renderedEN )
+
+    renderedFR = mySoyer.render( "myNamespace.myTemplate", "fr" { param1: "français" } )
+    console.log( renderedFR )
+</code></pre>
+
+<h2>get a template method ( GET )</h2>
+
+<p>Get's a method to render a template.</p>
+
+<p><strong><code>mySoyer.get( name, [ lang ] )</code> Arguments</strong> : </p>
+
+<ul>
+<li>
+<strong>name</strong>: <em>( <code>String</code> required )</em><br>
+soy path of the template.<br>
+</li>
+<li>
+<strong>lang</strong>: <em>( <code>String</code> required )</em><br>
+the language to render if <code>languagesupport</code> is activated.<br>
+</li>
+</ul><p><strong>Example</strong></p>
+
+<pre><code>fnTemplate = mySoyer.get( "myNamespace.path.to.template" )
+
+console.log( fnTemplate( { param1: "hello world" } ) )
+</code></pre>
+
+<h2>render a template ( RENDER )</h2>
+
+<p>render a template immediately</p>
+
+<p><strong><code>mySoyer.get( name, [ lang ] )</code> Arguments</strong> : </p>
+
+<ul>
+<li>
+<strong>name</strong>: <em>( <code>String</code> required )</em><br>
+soy path of the template.<br>
+</li>
+<li>
+<strong>lang</strong>: <em>( <code>String</code> optional )</em><br>
+the language to render if <code>languagesupport</code> is activated.<br>
+</li>
+<li>
+<strong>data</strong>: <em>( <code>String</code> optional: default = {} )</em><br>
+template data.<br>
+</li>
+</ul><p><strong>Example</strong></p>
+
+<pre><code>rendered = mySoyer.render( "myNamespace.path.to.template", { param1: "hello world" } )
+console.log( rendered )
+</code></pre>
+
+<h2>routing helper</h2>
+
+<p>usually you will use soyer within a routing framework like express.<br>
+In this case the server has to finish the loading of the templates before the first <code>.render()</code> is called.<br>
+So you can use the method <code>routingWait</code> to add a middleware and make sure the templates has been loaded until the first rendering starts.</p>
+
+<p>To use it you just have to add and call the method <code>[ your soyer instance ].routingWait()</code> as middleware.<br>
+Buff
+This is designed to fit to express. But you can use it in other tools, too. You just have to make sure the last argument of your routing framework is the <em>next</em> method ( e.g. in express it's <code>( request, response, next )</code> ).</p>
+
+<p><strong>Example</strong></p>
+
+<pre><code>express = require("express")
+app = express.createServer()
+
+Soyer = require("soyer")
+mySoyer = new Soyer( config )
+mySoyer.load ( err )-&gt;
+    throw err if err
+    return
+
+app.get "/myroute/:id", mySoyer.routingWait(), ( req, res )-&gt;
+    # do your stuff
+    return
+
+app.listen()
+</code></pre>
+
+<h3>General info</h3>
+
+<p>To define a locale my best practice is a combination of language-code <code>ISO 639</code> and country-code <code>ISO 3166</code>.<br>
+But you can define your own logic with this module.</p>
+
+<h2>Work in progress</h2>
+
+<p><code>soyer</code> is work in progress. Your ideas, suggestions etc. are very welcome.</p>
+
+<h2>License</h2>
+
+<p>(The MIT License)</p>
+
+<p>Copyright (c) 2010 TCS &lt;dev (at) tcs.de&gt;</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/mpneuried">mpneuried</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-32491479-2");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
