@@ -25,6 +25,7 @@ Thanks to [Daniel Pupius](http://search.npmjs.org/#/_author/Daniel%20Pupius) for
 first you have to define the connection and table attributes and get an instance of the simple-dynamo interface.
 
 ```
+Soyer = require("soyer")
 mySoyer = new Soyer( config )
 
 mySoyer.load ( err, success )->
@@ -130,6 +131,34 @@ template data.
 ```
 rendered = mySoyer.render( "myNamespace.path.to.template", { param1: "hello world" } )
 console.log( rendered )
+```
+
+## routing helper
+
+usually you will use soyer within a routing framework like express.  
+In this case the server has to finish the loading of the templates before the first `.render()` is called.  
+So you can use the method `routingWait` to add a middleware and make sure the templates has been loaded until the first rendering starts.
+
+To use it you just have to add and call the method `[ your soyer instance ].routingWait()` as middleware.  
+Buff
+This is designed to fit to express. But you can use it in other tools, too. You just have to make sure the last argument of your routing framework is the *next* method ( e.g. in express it's `( request, response, next )` ).
+
+**Example**
+```
+express = require("express")
+app = express.createServer()
+
+Soyer = require("soyer")
+mySoyer = new Soyer( config )
+mySoyer.load ( err )->
+	throw err if err
+	return
+
+app.get "/myroute/:id", mySoyer.routingWait(), ( req, res )->
+	# do your stuff
+	return
+
+app.listen()
 ```
 
 

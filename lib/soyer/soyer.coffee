@@ -2,10 +2,11 @@ vm = require "vm"
 fs = require "fs"
 path = require "path"
 _ = require "underscore"
+EventEmitter = require( "events" ).EventEmitter
 
 regexLocal = /[a-zA-Z]{2}-[a-zA-Z]{2}$/i
 
-module.exports = class ServerSoy
+module.exports = class ServerSoy extends EventEmitter 
 
 	settingDefaults:
 		path: "../templates"
@@ -41,6 +42,7 @@ module.exports = class ServerSoy
 			if err
 				cb( err )
 			else
+				@emit( "ready" )
 				@ready = true
 				cb( null, true )
 		return
@@ -80,6 +82,15 @@ module.exports = class ServerSoy
 		else
 			throw new Error('soyer: module not loaded. Please run `.load()` first.')
 			return
+
+	routingWait: ->
+		[ args... , next ] = arguments
+		if @ready
+			next()
+		else
+			@once "loaded", ->
+				next()
+		return
 
 	_loadCompiledTemplates: ( cb )=>
 		_cnf = @config
@@ -155,6 +166,7 @@ module.exports = class ServerSoy
 
 		files = []
 		stack = [ directory ]
+		_ext = @config.soyFileExt
 		next = =>
 			if not stack.length
 				cb( null, files )
@@ -173,7 +185,7 @@ module.exports = class ServerSoy
 							else
 								for file in dirContents
 									fullpath = path.join(dir, file)
-									if file.indexOf( ".soy.js" ) >= 0
+									if file.indexOf( _ext ) >= 0
 										files.push( path.relative( directory, fullpath ) )
 									else if file.indexOf( "." ) is -1
 										stack.push( fullpath )
