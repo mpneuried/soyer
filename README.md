@@ -22,7 +22,6 @@ Thanks to [Daniel Pupius](http://search.npmjs.org/#/_author/Daniel%20Pupius) for
 
 ### Initialize module:
 
-first you have to define the connection and table attributes and get an instance of the simple-dynamo interface.
 
 ```coffee
 Soyer = require("soyer")
