@@ -2,7 +2,7 @@
 	"name": "soyer",
 	"description": "",
 	"tags": [ "template", "google", "clousure", "templates", "soy", "node", "server", "xlf", "xliff", "language", "translate" ],
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"author": "mpneuried",
 	"main": "./lib/soyer/index.js",
 	"homepage": "http://mpneuried.github.com/soyer/",
