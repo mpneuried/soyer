@@ -39,7 +39,8 @@
         <ul></ul>
       </nav>
       <section>
-        <h1>soyer</h1>
+        <h1>
+<a name="soyer" class="anchor" href="#soyer"><span class="octicon octicon-link"></span></a>soyer</h1>
 
 <p><a href="http://travis-ci.org/mpneuried/soyer"><img src="https://secure.travis-ci.org/mpneuried/soyer.png?branch=master" alt="Build Status"></a></p>
 
@@ -51,27 +52,28 @@
 
 <p><strong>INFO: all examples are written in coffee-script</strong></p>
 
-<h2>Install</h2>
+<h2>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h2>
 
 <pre><code>  npm install soyer
 </code></pre>
 
-<h3>Initialize module:</h3>
+<h3>
+<a name="initialize-module" class="anchor" href="#initialize-module"><span class="octicon octicon-link"></span></a>Initialize module:</h3>
 
-<p>first you have to define the connection and table attributes and get an instance of the simple-dynamo interface.</p>
+<div class="highlight highlight-coffee"><pre><span class="nv">Soyer = </span><span class="nx">require</span><span class="p">(</span><span class="s">"soyer"</span><span class="p">)</span>
+<span class="nv">mySoyer = </span><span class="k">new</span> <span class="nx">Soyer</span><span class="p">(</span> <span class="nx">config</span> <span class="p">)</span>
 
-<pre><code>Soyer = require("soyer")
-mySoyer = new Soyer( config )
+<span class="nx">mySoyer</span><span class="p">.</span><span class="nx">load</span> <span class="nf">( err, success )-&gt;</span>
+    <span class="k">if</span> <span class="nx">err</span>
+        <span class="k">throw</span> <span class="nx">err</span>
+    <span class="k">else</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="s">"templates sucessfully loaded"</span> <span class="p">)</span>
 
-mySoyer.load ( err, success )-&gt;
-    if err
-        throw err
-    else
-        console.log( "templates sucessfully loaded" )
+</pre></div>
 
-</code></pre>
-
-<h4>config object description</h4>
+<h4>
+<a name="config-object-description" class="anchor" href="#config-object-description"><span class="octicon octicon-link"></span></a>config object description</h4>
 
 <ul>
 <li>
@@ -94,49 +96,50 @@ a list of valid language codes</li>
 a method to extract the language-code out of the filename. The filename will be passed to the method and should return a valid language code.</li>
 </ul><p><strong>Example</strong></p>
 
-<pre><code>Soyer = require( "soyer" )
+<div class="highlight highlight-coffee"><pre><span class="nv">Soyer = </span><span class="nx">require</span><span class="p">(</span> <span class="s">"soyer"</span> <span class="p">)</span>
 
-mySoyer = new Soyer
-    path: path.resolve( __dirname, "../path/to/templates/" ) 
+<span class="nv">mySoyer = </span><span class="k">new</span> <span class="nx">Soyer</span>
+    <span class="nv">path: </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span> <span class="nx">__dirname</span><span class="p">,</span> <span class="s">"../path/to/templates/"</span> <span class="p">)</span> 
 
-mySoyer.load ( err, success )-&gt;
-    throw err if err
+<span class="nx">mySoyer</span><span class="p">.</span><span class="nx">load</span> <span class="nf">( err, success )-&gt;</span>
+    <span class="k">throw</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
 
-    rendered = mySoyer.render( "myNamespace.myTemplate", { param1: "abc" } )
-    console.log( rendered )
-</code></pre>
+    <span class="nv">rendered = </span><span class="nx">mySoyer</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span> <span class="s">"myNamespace.myTemplate"</span><span class="p">,</span> <span class="p">{</span> <span class="nv">param1: </span><span class="s">"abc"</span> <span class="p">}</span> <span class="p">)</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">rendered</span> <span class="p">)</span>
+</pre></div>
 
 <p><strong>Advanced example</strong></p>
 
-<pre><code># files in folder: template.soy, template.en.js, template.fr.js, template.de.js
+<div class="highlight highlight-coffee"><pre><span class="c1"># files in folder: template.soy, template.en.js, template.fr.js, template.de.js</span>
 
-Soyer = require( "soyer" )
+<span class="nv">Soyer = </span><span class="nx">require</span><span class="p">(</span> <span class="s">"soyer"</span> <span class="p">)</span>
 
-mySoyer = new Soyer
-    path: path.resolve( __dirname, "../path/to/templates/" ) 
-    soyFileExt: ".js"
-    languagesupport: true
-    defaultlang: "de"
-    availibleLangs: [ "en", "de", "fr" ]
-    extractLang: ( file )-&gt;
-        [ _name, _lang ] = file.split( "." )
-        return _lang
+<span class="nv">mySoyer = </span><span class="k">new</span> <span class="nx">Soyer</span>
+    <span class="nv">path: </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span> <span class="nx">__dirname</span><span class="p">,</span> <span class="s">"../path/to/templates/"</span> <span class="p">)</span> 
+    <span class="nv">soyFileExt: </span><span class="s">".js"</span>
+    <span class="nv">languagesupport: </span><span class="kc">true</span>
+    <span class="nv">defaultlang: </span><span class="s">"de"</span>
+    <span class="nv">availibleLangs: </span><span class="p">[</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"de"</span><span class="p">,</span> <span class="s">"fr"</span> <span class="p">]</span>
+    <span class="nv">extractLang: </span><span class="nf">( file )-&gt;</span>
+        <span class="p">[</span> <span class="nx">_name</span><span class="p">,</span> <span class="nx">_lang</span> <span class="p">]</span> <span class="o">=</span> <span class="nx">file</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span> <span class="s">"."</span> <span class="p">)</span>
+        <span class="k">return</span> <span class="nx">_lang</span>
 
 
-mySoyer.load ( err, success )-&gt;
-    throw err if err
+<span class="nx">mySoyer</span><span class="p">.</span><span class="nx">load</span> <span class="nf">( err, success )-&gt;</span>
+    <span class="k">throw</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
 
-    renderedDE = mySoyer.render( "myNamespace.myTemplate", "de" { param1: "deutsch" } )
-    console.log( renderedDE )
+    <span class="nv">renderedDE = </span><span class="nx">mySoyer</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span> <span class="s">"myNamespace.myTemplate"</span><span class="p">,</span> <span class="s">"de"</span> <span class="p">{</span> <span class="nv">param1: </span><span class="s">"deutsch"</span> <span class="p">}</span> <span class="p">)</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">renderedDE</span> <span class="p">)</span>
 
-    renderedEN = mySoyer.render( "myNamespace.myTemplate", "en" { param1: "english" } )
-    console.log( renderedEN )
+    <span class="nv">renderedEN = </span><span class="nx">mySoyer</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span> <span class="s">"myNamespace.myTemplate"</span><span class="p">,</span> <span class="s">"en"</span> <span class="p">{</span> <span class="nv">param1: </span><span class="s">"english"</span> <span class="p">}</span> <span class="p">)</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">renderedEN</span> <span class="p">)</span>
 
-    renderedFR = mySoyer.render( "myNamespace.myTemplate", "fr" { param1: "français" } )
-    console.log( renderedFR )
-</code></pre>
+    <span class="nv">renderedFR = </span><span class="nx">mySoyer</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span> <span class="s">"myNamespace.myTemplate"</span><span class="p">,</span> <span class="s">"fr"</span> <span class="p">{</span> <span class="nv">param1: </span><span class="s">"français"</span> <span class="p">}</span> <span class="p">)</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">renderedFR</span> <span class="p">)</span>
+</pre></div>
 
-<h2>get a template method ( GET )</h2>
+<h2>
+<a name="get-a-template-method--get-" class="anchor" href="#get-a-template-method--get-"><span class="octicon octicon-link"></span></a>get a template method ( GET )</h2>
 
 <p>Get's a method to render a template.</p>
 
@@ -153,12 +156,13 @@ the language to render if <code>languagesupport</code> is activated.<br>
 </li>
 </ul><p><strong>Example</strong></p>
 
-<pre><code>fnTemplate = mySoyer.get( "myNamespace.path.to.template" )
+<div class="highlight highlight-coffee"><pre><span class="nv">fnTemplate = </span><span class="nx">mySoyer</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s">"myNamespace.path.to.template"</span> <span class="p">)</span>
 
-console.log( fnTemplate( { param1: "hello world" } ) )
-</code></pre>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">fnTemplate</span><span class="p">(</span> <span class="p">{</span> <span class="nv">param1: </span><span class="s">"hello world"</span> <span class="p">}</span> <span class="p">)</span> <span class="p">)</span>
+</pre></div>
 
-<h2>render a template ( RENDER )</h2>
+<h2>
+<a name="render-a-template--render-" class="anchor" href="#render-a-template--render-"><span class="octicon octicon-link"></span></a>render a template ( RENDER )</h2>
 
 <p>render a template immediately</p>
 
@@ -179,11 +183,12 @@ template data.<br>
 </li>
 </ul><p><strong>Example</strong></p>
 
-<pre><code>rendered = mySoyer.render( "myNamespace.path.to.template", { param1: "hello world" } )
-console.log( rendered )
-</code></pre>
+<div class="highlight highlight-coffee"><pre><span class="nv">rendered = </span><span class="nx">mySoyer</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span> <span class="s">"myNamespace.path.to.template"</span><span class="p">,</span> <span class="p">{</span> <span class="nv">param1: </span><span class="s">"hello world"</span> <span class="p">}</span> <span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">rendered</span> <span class="p">)</span>
+</pre></div>
 
-<h2>routing helper</h2>
+<h2>
+<a name="routing-helper" class="anchor" href="#routing-helper"><span class="octicon octicon-link"></span></a>routing helper</h2>
 
 <p>usually you will use soyer within a routing framework like express.<br>
 In this case the server has to finish the loading of the templates before the first <code>.render()</code> is called.<br>
@@ -211,16 +216,45 @@ app.get "/myroute/:id", mySoyer.routingWait(), ( req, res )-&gt;
 app.listen()
 </code></pre>
 
-<h3>General info</h3>
+<h3>
+<a name="general-info" class="anchor" href="#general-info"><span class="octicon octicon-link"></span></a>General info</h3>
 
 <p>To define a locale my best practice is a combination of language-code <code>ISO 639</code> and country-code <code>ISO 3166</code>.<br>
 But you can define your own logic with this module.</p>
 
-<h2>Work in progress</h2>
+<h2>
+<a name="work-in-progress" class="anchor" href="#work-in-progress"><span class="octicon octicon-link"></span></a>Work in progress</h2>
 
 <p><code>soyer</code> is work in progress. Your ideas, suggestions etc. are very welcome.</p>
 
-<h2>License</h2>
+<h2>
+<a name="changelog" class="anchor" href="#changelog"><span class="octicon octicon-link"></span></a>Changelog</h2>
+
+<p><code>0.3.0</code> Updated soyutils to version Dez. 2012</p>
+
+<h2>
+<a name="release-history" class="anchor" href="#release-history"><span class="octicon octicon-link"></span></a>Release History</h2>
+
+<table>
+<thead><tr>
+<th align="center">Version</th>
+<th align="center">Date</th>
+<th align="left">Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="center">v0.3.1</td>
+<td align="center">2013-12-04</td>
+<td align="left">Fixed bug to ignore hidden files ( prefixed with a <code>.</code> )</td>
+</tr>
+<tr>
+<td align="center">v0.3.0</td>
+<td align="center">2013-03-04</td>
+<td align="left">Updated soyutils to version Dez. 2012</td>
+</tr>
+</tbody>
+</table><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>(The MIT License)</p>
 
@@ -247,10 +281,10 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
       </section>
       <footer>
         <p>Project maintained by <a href="https://github.com/mpneuried">mpneuried</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
       </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
