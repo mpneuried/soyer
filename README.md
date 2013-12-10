@@ -170,9 +170,6 @@ But you can define your own logic with this module.
 
 `soyer` is work in progress. Your ideas, suggestions etc. are very welcome.
 
-## Changelog
-
-`0.3.0` Updated soyutils to version Dez. 2012
 ## Release History
 |Version|Date|Description|
 |:--:|:--:|:--|
