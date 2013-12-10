@@ -185,9 +185,9 @@ module.exports = class ServerSoy extends EventEmitter
 							else
 								for file in dirContents
 									fullpath = path.join(dir, file)
-									if file.indexOf( _ext ) >= 0
+									if file[ 0 ] isnt "." and file.indexOf( _ext ) >= 0
 										files.push( path.relative( directory, fullpath ) )
-									else if file.indexOf( "." ) is -1
+									else if file[ 0 ] isnt "." and file.indexOf( "." ) is -1
 										stack.push( fullpath )
 								next()
 							return
