@@ -88,7 +88,7 @@ module.exports = class ServerSoy extends EventEmitter
 		if @ready
 			next()
 		else
-			@once "loaded", ->
+			@once "ready", ->
 				next()
 		return
 

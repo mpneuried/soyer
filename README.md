@@ -173,6 +173,7 @@ But you can define your own logic with this module.
 ## Release History
 |Version|Date|Description|
 |:--:|:--:|:--|
+|v0.3.3|2014-10-30|Fixed bug in `routingWait` method|
 |v0.3.1|2013-12-04|Fixed bug to ignore hidden files ( prefixed with a `.` )|
 |v0.3.0|2013-03-04|Updated soyutils to version Dez. 2012|
 
