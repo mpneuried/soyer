@@ -180,7 +180,8 @@ But you can define your own logic with this module.
 
 |Version|Date|Description|
 |:--:|:--:|:--|
-|v0.3.4|2015-04-14|Added try catch during vm context create; changed to a more modern develpoment env with grunt; Switched to lodash |
+|v0.3.5|2015-04-14|Dropped node 0.6 and 0.8 travis tests, because the dependencies to build the modules are not compatible. But i think the compiled version from npm should already work |
+|v0.3.4|2015-04-14|Added try catch during vm context create; changed to a more modern development env with grunt; Switched to lodash |
 |v0.3.3|2014-10-30|Fixed bug in `routingWait` method|
 |v0.3.1|2013-12-04|Fixed bug to ignore hidden files ( prefixed with a `.` )|
 |v0.3.0|2013-03-04|Updated soyutils to version Dez. 2012|

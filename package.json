@@ -1,9 +1,9 @@
 {
 	"name": "soyer",
-	"description": "",
+	"description": "Soyer is small lib for serverside use of Google Closure Templates with node.js",
 	"tags": [ "template", "google", "clousure", "templates", "soy", "node", "server", "xlf", "xliff", "language", "translate" ],
 	"keywords": [ "template", "google", "clousure", "templates", "soy", "node", "server", "xlf", "xliff", "language", "translate" ],
-	"version": "0.3.4",
+	"version": "0.3.5",
 	"author": "mpneuried",
 	"license": "MIT",
 	"repository": {
