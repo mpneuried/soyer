@@ -2,37 +2,36 @@ soyer
 ===========
 
 [![Build Status](https://secure.travis-ci.org/mpneuried/soyer.png?branch=master)](http://travis-ci.org/mpneuried/soyer)
+[![Dependency Status](https://david-dm.org/mpneuried/soyer.png)](https://david-dm.org/mpneuried/soyer)
+[![NPM version](https://badge.fury.io/js/soyer.png)](http://badge.fury.io/js/soyer)
 
 **Soyer** is small lib for serverside use of Google Closure Templates with node.js.
 
+[![NPM](https://nodei.co/npm/soyer.png?downloads=true&stars=true)](https://nodei.co/npm/soyer/)
+
 Thanks to [Daniel Pupius](http://search.npmjs.org/#/_author/Daniel%20Pupius) for [soynode](http://search.npmjs.org/#/soynode). I used this module as template and added the language support and removed the compile features.
-
-*Written in coffee-script*
-
-**INFO: all examples are written in coffee-script**
 
 
 ## Install
 
-```
+```sh
   npm install soyer
 ```
-
-
 
 ### Initialize module:
 
 
-```coffee
-Soyer = require("soyer")
-mySoyer = new Soyer( config )
+```js
+var Soyer = require("soyer");
+var mySoyer = new Soyer( config );
 
-mySoyer.load ( err, success )->
-	if err
+mySoyer.load( function( err, success ){
+	if( err ){
 		throw err
-	else
-		console.log( "templates sucessfully loaded" )
-
+	} else {
+		console.log( "templates sucessfully loaded" );
+	}
+});
 ```
 
 ####config object description
@@ -51,47 +50,56 @@ a list of valid language codes
 a method to extract the language-code out of the filename. The filename will be passed to the method and should return a valid language code.
 
 **Example**
-```coffee
-Soyer = require( "soyer" )
+```js
+var Soyer = require( "soyer" );
 
-mySoyer = new Soyer
+var mySoyer = new Soyer({
 	path: path.resolve( __dirname, "../path/to/templates/" ) 
+});
 
-mySoyer.load ( err, success )->
-	throw err if err
+mySoyer.load( function( err, success ){
+	if( err ){
+		throw err
+	}
 
-	rendered = mySoyer.render( "myNamespace.myTemplate", { param1: "abc" } )
-	console.log( rendered )
+	var rendered = mySoyer.render( "myNamespace.myTemplate", { param1: "abc" } );
+	console.log( rendered );
+});
 ```
 
 **Advanced example**
-```coffee
-# files in folder: template.soy, template.en.js, template.fr.js, template.de.js
+```js
+// files in folder: template.soy, template.en.js, template.fr.js, template.de.js
 
-Soyer = require( "soyer" )
+var Soyer = require( "soyer" );
 
-mySoyer = new Soyer
-	path: path.resolve( __dirname, "../path/to/templates/" ) 
-	soyFileExt: ".js"
-	languagesupport: true
-	defaultlang: "de"
-	availibleLangs: [ "en", "de", "fr" ]
-	extractLang: ( file )->
-		[ _name, _lang ] = file.split( "." )
+var mySoyer = new Soyer({
+	path: path.resolve( __dirname, "../path/to/templates/" ) ,
+	soyFileExt: ".js",
+	languagesupport: true,
+	defaultlang: "de",
+	availibleLangs: [ "en", "de", "fr" ],
+	extractLang: function( file ){
+		var _lang = file.split( "." )[1]
 		return _lang
+	}
+});
 
 
-mySoyer.load ( err, success )->
-	throw err if err
+mySoyer.load( function( err, success ){
+	if( err ){
+		throw err
+	}
 
-	renderedDE = mySoyer.render( "myNamespace.myTemplate", "de" { param1: "deutsch" } )
-	console.log( renderedDE )
+	var renderedDE = mySoyer.render( "myNamespace.myTemplate", "de" { param1: "deutsch" } );
+	console.log( renderedDE );
 
-	renderedEN = mySoyer.render( "myNamespace.myTemplate", "en" { param1: "english" } )
-	console.log( renderedEN )
+	var renderedEN = mySoyer.render( "myNamespace.myTemplate", "en" { param1: "english" } );
+	console.log( renderedEN );
 
-	renderedFR = mySoyer.render( "myNamespace.myTemplate", "fr" { param1: "français" } )
-	console.log( renderedFR )
+	var renderedFR = mySoyer.render( "myNamespace.myTemplate", "fr" { param1: "français" } );
+	console.log( renderedFR );
+});
 ```
 
 
@@ -107,10 +115,10 @@ soy path of the template.
 the language to render if `languagesupport` is activated.  
 
 **Example**
-```coffee
-fnTemplate = mySoyer.get( "myNamespace.path.to.template" )
+```js
+var fnTemplate = mySoyer.get( "myNamespace.path.to.template" );
 
-console.log( fnTemplate( { param1: "hello world" } ) )
+console.log( fnTemplate( { param1: "hello world" } ) );
 ```
 
 ## render a template ( RENDER )
@@ -127,9 +135,9 @@ the language to render if `languagesupport` is activated.
 template data.  
 
 **Example**
-```coffee
-rendered = mySoyer.render( "myNamespace.path.to.template", { param1: "hello world" } )
-console.log( rendered )
+```js
+var rendered = mySoyer.render( "myNamespace.path.to.template", { param1: "hello world" } );
+console.log( rendered );
 ```
 
 ## routing helper
@@ -144,45 +152,62 @@ This is designed to fit to express. But you can use it in other tools, too. You 
 
 **Example**
 ```
-express = require("express")
-app = express.createServer()
+Soyer = require("soyer");
 
-Soyer = require("soyer")
-mySoyer = new Soyer( config )
-mySoyer.load ( err )->
-	throw err if err
-	return
+var express = require("express");
+var app = express.createServer();
 
-app.get "/myroute/:id", mySoyer.routingWait(), ( req, res )->
-	# do your stuff
-	return
+var mySoyer = new Soyer( config );
+mySoyer.load( function( err ){
+	if( err ){
+		throw err
+	}
+});
+
+app.get( "/myroute/:id", mySoyer.routingWait(), function( req, res ){
+	// do your stuff
+});
 
 app.listen()
 ```
-
 
 ###General info
 
 To define a locale my best practice is a combination of language-code `ISO 639` and country-code `ISO 3166`.  
 But you can define your own logic with this module.
 
-## Work in progress
-
-`soyer` is work in progress. Your ideas, suggestions etc. are very welcome.
-
 ## Release History
+
 |Version|Date|Description|
 |:--:|:--:|:--|
+|v0.3.4|2015-04-14|Added try catch during vm context create; changed to a more modern develpoment env with grunt; Switched to lodash |
 |v0.3.3|2014-10-30|Fixed bug in `routingWait` method|
 |v0.3.1|2013-12-04|Fixed bug to ignore hidden files ( prefixed with a `.` )|
 |v0.3.0|2013-03-04|Updated soyutils to version Dez. 2012|
 
+[![NPM](https://nodei.co/npm-dl/soyer.png?months=6)](https://nodei.co/npm/soyer/)
+
+## Other projects
+
+|Name|Description|
+|:--|:--|
+|[**rsmq**](https://github.com/smrchy/rsmq)|A really simple message queue based on Redis|
+|[**rsmq-worker**](https://github.com/mpneuried/rsmq-worker)|RSMQ helper to simply implement a worker around the message queue|
+|[**redis-notifications**](https://github.com/mpneuried/redis-notifications)|A redis based notification engine. It implements the rsmq-worker to safely create notifications and recurring reports.|
+|[**node-cache**](https://github.com/tcs-de/nodecache)|Simple and fast NodeJS internal caching. Node internal in memory cache like memcached.|
+|[**redis-sessions**](https://github.com/smrchy/redis-sessions)|An advanced session store for NodeJS and Redis|
+|[**obj-schema**](https://github.com/mpneuried/obj-schema)|Simple module to validate an object by a predefined schema|
+|[**connect-redis-sessions**](https://github.com/mpneuried/connect-redis-sessions)|A connect or express middleware to simply use the [redis sessions](https://github.com/smrchy/redis-sessions). With [redis sessions](https://github.com/smrchy/redis-sessions) you can handle multiple sessions per user_id.|
+|[**systemhealth**](https://github.com/mpneuried/systemhealth)|Node module to run simple custom checks for your machine or it's connections. It will use [redis-heartbeat](https://github.com/mpneuried/redis-heartbeat) to send the current state to redis.|
+|[**task-queue-worker**](https://github.com/smrchy/task-queue-worker)|A powerful tool for background processing of tasks that are run by making standard http requests.|
+|[**grunt-soy-compile**](https://github.com/mpneuried/grunt-soy-compile)|Compile Goggle Closure Templates ( SOY ) templates inclding the handling of XLIFF language files.|
+|[**backlunr**](https://github.com/mpneuried/backlunr)|A solution to bring Backbone Collections together with the browser fulltext search engine Lunr.js|
 
 ## License 
 
 (The MIT License)
 
-Copyright (c) 2010 TCS &lt;dev (at) tcs.de&gt;
+Copyright (c) 2013 M. Peter
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

@@ -1,7 +1,7 @@
 vm = require "vm"
 fs = require "fs"
 path = require "path"
-_ = require "underscore"
+_ = require "lodash"
 EventEmitter = require( "events" ).EventEmitter
 
 regexLocal = /[a-zA-Z]{2}-[a-zA-Z]{2}$/i
@@ -118,9 +118,12 @@ module.exports = class ServerSoy extends EventEmitter
 					if err 
 						cb( err )
 					else
-						_vm = @_getContext( _lang )
-						vm.runInContext(fileContents, _vm, _path)
-						next()
+						try
+							_vm = @_getContext( _lang )
+							vm.runInContext(fileContents, _vm, _path)
+							next()
+						catch _err
+							cb( _err )
 					return
 			return
 

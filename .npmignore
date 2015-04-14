@@ -1,0 +1,12 @@
+/test/
+/_src
+/node_modules
+Gruntfile.*
+*.sublime*
+config.json
+config*.json
+deploy.json
+.editorconfig
+.travis.yml
+
+*.coffee

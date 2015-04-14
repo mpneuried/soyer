@@ -1,5 +1,5 @@
 exports = module.exports = require "./soyer"
 
-exports.version = '0.3.3'
+exports.version = '@@version'
 
 exports.helper = require "./helper"
