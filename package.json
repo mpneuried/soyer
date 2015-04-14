@@ -19,7 +19,7 @@
 		"test": "grunt test"
 	},
 	"dependencies": {
-		"lodash": "3.x"
+		"lodash": "3.x || 2.x"
 	},
 	"devDependencies": {
 		"should": "4.3.x",
